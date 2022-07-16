@@ -10,7 +10,7 @@ Exemplo de utilização de Spring Boot
 * PostgreSQL Driver
 * Lombok
 
-## Install dependencias 
+## Instalar dependências 
 
 mvn package -DskipTests
 
