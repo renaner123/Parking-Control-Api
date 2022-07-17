@@ -7,6 +7,8 @@ import java.util.UUID;
 
 import javax.validation.Valid;
 
+import com.api.parkingcontrol.contrains.ParkingSpot;
+import com.api.parkingcontrol.contrains.ParkingSpotValidator;
 import com.api.parkingcontrol.dtos.ParkingSpotDto;
 import com.api.parkingcontrol.models.ParkingSpotModel;
 import com.api.parkingcontrol.services.ParkingSpotService;
@@ -20,6 +22,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,14 +33,17 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import lombok.extern.slf4j.Slf4j;
+
+//TODO jogar as inforações do log para um arquivo
+@Slf4j
+@Validated 
 @RestController
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RequestMapping("/parking-spot")
 public class ParkingSpotController {
 
-    final ParkingSpotService parkingSpotService;
-    private static final Logger log = LoggerFactory.getLogger(ParkingSpotController.class);
-    
+    final ParkingSpotService parkingSpotService;    
     public ParkingSpotController(ParkingSpotService parkingSpotService) {
         this.parkingSpotService = parkingSpotService;
     }
@@ -50,27 +56,11 @@ public class ParkingSpotController {
      * @return Status created(201) com os dados que foram cadastrados
      */
     @PostMapping
-    public ResponseEntity<Object> saveParkingSpot(@RequestBody @Valid ParkingSpotDto parkingSpotDto) {
-        // TODO fazer um custom validador para isolar essas validações e dividir a
-        // responsabilidade
-        // Valida antes de inserir no banco, pra não quebrar ao inserir informações
-        // unique por exemplo
-        if (parkingSpotService.existsByLicensePlateCar(parkingSpotDto.getLicensePlateCar())) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body("Conflict: License Plate Car is already in use!");
-        }
-
-        if (parkingSpotService.existsByParkingSpotNumber(parkingSpotDto.getParkingSpotNumber())) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body("Conflict: Parking Spot is already in use!");
-        }
-
-        if (parkingSpotService.existsByApartmentAndBlock(parkingSpotDto.getApartment(), parkingSpotDto.getBlock())) {
-            return ResponseEntity.status(HttpStatus.CONFLICT)
-                    .body("Conflict: Parking Spot already registred for this apartment/block!");
-        }
-
+    public ResponseEntity<Object> saveParkingSpot(@RequestBody @Valid ParkingSpotDto parkingSpotDto){
         var parkingSpotModel = new ParkingSpotModel();
         // Converte Dto em Model
         BeanUtils.copyProperties(parkingSpotDto, parkingSpotModel);
+        log.info("Valor do Dto copiado {}:", parkingSpotModel.toString());
         parkingSpotModel.setRegistrationDate(LocalDateTime.now(ZoneId.of("UTC")));
         return ResponseEntity.status(HttpStatus.CREATED).body(parkingSpotService.save(parkingSpotModel));
     }
@@ -78,6 +68,7 @@ public class ParkingSpotController {
     //TODO receber argumentos pra listar por tipo de carro, bloco ...
     @GetMapping
     public ResponseEntity<Page<ParkingSpotModel>> getAllParkingSpot(@PageableDefault(page = 0, size = 10, sort = "id", direction = Sort.Direction.ASC) Pageable pageable) {
+        log.info("Listando todas as vagas de estacionamento usadas");
         return ResponseEntity.status(HttpStatus.OK).body(parkingSpotService.findAll(pageable));
     }
 
@@ -97,6 +88,7 @@ public class ParkingSpotController {
         if (!parkingSpotModelOptional.isPresent()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Parking Spot not found.");
         } else {
+            log.info("Vaga {} deletada!", id);
             parkingSpotService.deleteByIdParkingSpot(parkingSpotModelOptional.get());// como é optcional precisa usar o
                                                                                      // get pra pegar a instancia
             return ResponseEntity.status(HttpStatus.OK).body("Parking Spot was deleted!");
