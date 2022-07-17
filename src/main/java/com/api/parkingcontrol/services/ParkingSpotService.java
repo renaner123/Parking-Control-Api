@@ -11,19 +11,21 @@ import com.api.parkingcontrol.models.ParkingSpotModel;
 import com.api.parkingcontrol.repositories.ParkingSpotRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 //Usado para regras de negócios. Intermediário entre Controllers e Repositories
 @Service
 public class ParkingSpotService {
-    
+
     final ParkingSpotRepository parkingSpotRepository;
 
-    public ParkingSpotService(ParkingSpotRepository parkingSpotRepository){
+    public ParkingSpotService(ParkingSpotRepository parkingSpotRepository) {
         this.parkingSpotRepository = parkingSpotRepository;
     }
 
-    //Garante que não irá ter dados quebrados, faz rollback
+    // Garante que não irá ter dados quebrados, faz rollback
     @Transactional
     public ParkingSpotModel save(ParkingSpotModel parkingSpotModel) {
         return parkingSpotRepository.save(parkingSpotModel);
@@ -41,13 +43,17 @@ public class ParkingSpotService {
         return parkingSpotRepository.existsByApartmentAndBlock(apartment, block);
     }
 
-    public List<ParkingSpotModel> findAll() {
-        return parkingSpotRepository.findAll();
+    public Page<ParkingSpotModel> findAll(Pageable pageable) {
+        return parkingSpotRepository.findAll(pageable);
     }
 
     public Optional<ParkingSpotModel> findById(UUID id) {
         return parkingSpotRepository.findById(id);
     }
 
+    @Transactional
+    public void deleteByIdParkingSpot(ParkingSpotModel parkingSpot) {
+        parkingSpotRepository.delete(parkingSpot);
+    }
 
 }
