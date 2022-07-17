@@ -1,3 +1,5 @@
+[![Java CI with Maven](https://github.com/renaner123/Parking-Control-Api/actions/workflows/maven.yml/badge.svg)](https://github.com/renaner123/Parking-Control-Api/actions/workflows/maven.yml)
+
 ## Controle de veículos em condomínio
 
 Criando uma API Rest com Spring Boot. Código base se encontra neste [repositório](https://www.youtube.com/watch?v=LXRU-Z36GEU&t=9s). 
