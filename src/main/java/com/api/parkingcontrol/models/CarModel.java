@@ -35,13 +35,4 @@ public class CarModel {
 
     @OneToOne
     private ParkingSpotModel parkingSpot;
-
-/*     @Column(nullable = false, length = 70)
-    private String brandCar;
-
-    @Column(nullable = false, length = 70)
-    private String modelCar;
-
-    @Column(nullable = false, length = 70)
-    private String colorCar; */
 }
