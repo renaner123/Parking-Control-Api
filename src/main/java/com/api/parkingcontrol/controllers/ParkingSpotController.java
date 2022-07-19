@@ -2,6 +2,7 @@ package com.api.parkingcontrol.controllers;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -9,13 +10,17 @@ import javax.validation.Valid;
 
 import com.api.parkingcontrol.contrains.ParkingSpot;
 import com.api.parkingcontrol.contrains.ParkingSpotValidator;
+import com.api.parkingcontrol.dtos.CarDto;
 import com.api.parkingcontrol.dtos.ParkingSpotDto;
+import com.api.parkingcontrol.models.CarModel;
 import com.api.parkingcontrol.models.ParkingSpotModel;
+import com.api.parkingcontrol.services.CarService;
 import com.api.parkingcontrol.services.ParkingSpotService;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -42,10 +47,15 @@ import lombok.extern.slf4j.Slf4j;
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RequestMapping("/parking-spot")
 public class ParkingSpotController {
-
-    final ParkingSpotService parkingSpotService;    
-    public ParkingSpotController(ParkingSpotService parkingSpotService) {
+    
+    @Autowired
+    private ParkingSpotService parkingSpotService;  
+    @Autowired
+    private CarService carService;
+    
+    public ParkingSpotController(ParkingSpotService parkingSpotService, CarService carService) {
         this.parkingSpotService = parkingSpotService;
+        this.carService = carService;
     }
 
     /**
@@ -58,11 +68,18 @@ public class ParkingSpotController {
     @PostMapping
     public ResponseEntity<Object> saveParkingSpot(@RequestBody @Valid ParkingSpotDto parkingSpotDto){
         var parkingSpotModel = new ParkingSpotModel();
+        var carModel = new CarModel();
         // Converte Dto em Model
         BeanUtils.copyProperties(parkingSpotDto, parkingSpotModel);
-        log.info("Valor do Dto copiado {}:", parkingSpotModel.toString());
+        BeanUtils.copyProperties(parkingSpotDto, carModel);
+
         parkingSpotModel.setRegistrationDate(LocalDateTime.now(ZoneId.of("UTC")));
-        return ResponseEntity.status(HttpStatus.CREATED).body(parkingSpotService.save(parkingSpotModel));
+        carService.save(carModel);
+        parkingSpotModel.setCarModel(carModel);
+        parkingSpotService.save(parkingSpotModel);
+        log.info("Valor do ParkingSPotDto copiado {}:", parkingSpotModel.toString());
+        log.info("Valor do CarDto copiado {}:", carModel.toString());
+        return ResponseEntity.status(HttpStatus.CREATED).body(parkingSpotModel);
     }
 
     //TODO receber argumentos pra listar por tipo de carro, bloco ...
@@ -100,15 +117,22 @@ public class ParkingSpotController {
                                                     @RequestBody @Valid ParkingSpotDto parkingSpotDto){
                                                         
         Optional<ParkingSpotModel> parkingSpotModelOptional = parkingSpotService.findById(id);
+
         if(!parkingSpotModelOptional.isPresent()){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Parking Spot not found.");
         }
 
         var parkingSpotModel = new ParkingSpotModel();
+        var carModel = new CarModel();
         // Converte Dto em Model
         BeanUtils.copyProperties(parkingSpotDto, parkingSpotModel);
+        BeanUtils.copyProperties(parkingSpotDto, carModel);
+
         parkingSpotModel.setId(parkingSpotModelOptional.get().getId());
         parkingSpotModel.setRegistrationDate(parkingSpotModelOptional.get().getRegistrationDate());
+        carService.save(carModel);
+        parkingSpotModel.setCarModel(carModel);
+
         return ResponseEntity.status(HttpStatus.CREATED).body(parkingSpotService.save(parkingSpotModel));
         // TODO estudar meios de conversão para alterar as informações no banco somente do que veio alterado
     }

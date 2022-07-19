@@ -6,9 +6,9 @@ Criando uma API Rest com Spring Boot. Código base se encontra neste [repositór
 
 Projeto consite em fazer uma API para ter controle de estacionamento de um condomínio. Foram feitas as seguintes melhorias no projeto.
 
-- [ ] Usar CustomValidator 
+- [x] Usar CustomValidator 
 - [ ] Receber argumentos no método findAll para listar por argumento
-- [ ] Fazer relacionamento entre as classes
+- [x] Fazer relacionamento entre as classes
 - [ ] Usar meios de conversões para alterar dados com o PUT
 - [ ] Inserir testes de unidade com JUnit 5
 - [ ] Inserir Logger com slf4j

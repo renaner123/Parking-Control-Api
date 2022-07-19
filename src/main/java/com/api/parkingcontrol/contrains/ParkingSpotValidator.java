@@ -25,8 +25,7 @@ public class ParkingSpotValidator implements ConstraintValidator<ParkingSpot, Pa
     public boolean isValid(ParkingSpotDto value, ConstraintValidatorContext context) {
         log.info("Iniciou ParkingSpotValidator");
 
-        if (!parkingSpotService.existsByLicensePlateCar(value.getLicensePlateCar()) &&
-                !parkingSpotService.existsByParkingSpotNumber(value.getParkingSpotNumber()) &&
+        if (!parkingSpotService.existsByParkingSpotNumber(value.getParkingSpotNumber()) &&
                 !parkingSpotService.existsByApartmentAndBlock(value.getApartment(), value.getBlock())) {
             return true;
         }

@@ -41,4 +41,5 @@ public class ParkingSpotDto extends ParkingSpotModel{
 
     @NotBlank  
     private String block;
+
 }
