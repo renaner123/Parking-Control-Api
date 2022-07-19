@@ -10,7 +10,6 @@ import javax.validation.Valid;
 
 import com.api.parkingcontrol.contrains.ParkingSpot;
 import com.api.parkingcontrol.contrains.ParkingSpotValidator;
-import com.api.parkingcontrol.dtos.CarDto;
 import com.api.parkingcontrol.dtos.ParkingSpotDto;
 import com.api.parkingcontrol.models.CarModel;
 import com.api.parkingcontrol.models.ParkingSpotModel;
