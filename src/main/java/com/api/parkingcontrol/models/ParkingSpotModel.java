@@ -17,6 +17,9 @@ import javax.persistence.Table;
 
 import lombok.Data;
 
+/**
+ * Representa uma vaga de estacionamento
+ */
 @Entity
 @Table(name = "tb_parking_spot")
 @Data
@@ -24,7 +27,6 @@ public class ParkingSpotModel implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    //TODO criar uma classe carro e fazer mapeamento 1-1
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;

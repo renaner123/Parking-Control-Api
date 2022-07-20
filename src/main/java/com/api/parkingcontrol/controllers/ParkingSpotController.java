@@ -41,17 +41,17 @@ import lombok.extern.slf4j.Slf4j;
 
 //TODO jogar as inforações do log para um arquivo
 @Slf4j
-@Validated 
+@Validated
 @RestController
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RequestMapping("/parking-spot")
 public class ParkingSpotController {
-    
+
     @Autowired
-    private ParkingSpotService parkingSpotService;  
+    private ParkingSpotService parkingSpotService;
     @Autowired
     private CarService carService;
-    
+
     public ParkingSpotController(ParkingSpotService parkingSpotService, CarService carService) {
         this.parkingSpotService = parkingSpotService;
         this.carService = carService;
@@ -65,7 +65,7 @@ public class ParkingSpotController {
      * @return Status created(201) com os dados que foram cadastrados
      */
     @PostMapping
-    public ResponseEntity<Object> saveParkingSpot(@RequestBody @Valid ParkingSpotDto parkingSpotDto){
+    public ResponseEntity<Object> saveParkingSpot(@RequestBody @Valid ParkingSpotDto parkingSpotDto) {
         var parkingSpotModel = new ParkingSpotModel();
         var carModel = new CarModel();
         // Converte Dto em Model
@@ -81,13 +81,38 @@ public class ParkingSpotController {
         return ResponseEntity.status(HttpStatus.CREATED).body(parkingSpotModel);
     }
 
-    //TODO receber argumentos pra listar por tipo de carro, bloco ...
+
+    /**
+     * Retorna todos as vagas de estacionamento cadastradas no banco de dados
+     */
     @GetMapping
-    public ResponseEntity<Page<ParkingSpotModel>> getAllParkingSpot(@PageableDefault(page = 0, size = 10, sort = "id", direction = Sort.Direction.ASC) Pageable pageable) {
+    public ResponseEntity<Page<ParkingSpotModel>> getAllParkingSpot(
+            @PageableDefault(page = 0, size = 10, sort = "id", direction = Sort.Direction.ASC) Pageable pageable) {
         log.info("Listando todas as vagas de estacionamento usadas");
         return ResponseEntity.status(HttpStatus.OK).body(parkingSpotService.findAll(pageable));
     }
+    // TODO receber argumentos pra listar por tipo de carro, bloco ...
+    /**
+     * Retorna todos os apartamentos correspondentes ao bloco informado
+     * 
+     * @param pageable  Informação abstrata para paginação  
+     * @param block     bloco que que será usada para listar as vagas de estacinamento
+     * @return          200 OK caso não ocorra nenhum erro
+     */
+    @GetMapping("/block/{block}")
+    public ResponseEntity<List<ParkingSpotModel>> getAllByModelCar(
+            @PathVariable(value = "block") @PageableDefault(page = 0, size = 10, sort = "block", direction = Sort.Direction.ASC) Pageable pageable,
+            String block) {
+        log.info("Listando todas as vagas de estacionamento contidas no block {}", block);
+        return ResponseEntity.status(HttpStatus.OK).body(parkingSpotService.findByBlock(block));
+    }
 
+    /**
+     * Retorna as informações de uma vaga de estacionamento
+     * 
+     * @param id    id que se deseja consultar as informações
+     * @return      informações contidas no Objeto ParkingSpotModel
+     */
     @GetMapping("/{id}")
     public ResponseEntity<Object> getByIdParkingSpot(@PathVariable(value = "id") UUID id) {
 
@@ -98,6 +123,12 @@ public class ParkingSpotController {
         return ResponseEntity.status(HttpStatus.OK).body(parkingSpotModelOptional.get());
     }
 
+    /**
+     * Deleta uma vaga de estacionamento do banco de dados de acordo com o id passado
+     * 
+     * @param id id que se deseja consultar as informações
+     * @return  200 OK caso não ocorra nenhum erro
+     */
     @DeleteMapping("/{id}")
     public ResponseEntity<Object> deleteByIdParkingSpot(@PathVariable(value = "id") UUID id) {
         Optional<ParkingSpotModel> parkingSpotModelOptional = parkingSpotService.findById(id);
@@ -111,13 +142,17 @@ public class ParkingSpotController {
         }
     }
 
+    /**
+     * Altera as informações de uma vaga de estacionamento cadastrada
+     */
     @PutMapping("/{id}")
     public ResponseEntity<Object> updateParkingSpot(@PathVariable(value = "id") UUID id,
-                                                    @RequestBody @Valid ParkingSpotDto parkingSpotDto){
-                                                        
+            @RequestBody @Valid ParkingSpotDto parkingSpotDto) {
+        // TODO estudar mapStruct -> https://mapstruct.org
+        // TODO estudar injeção de dependências
         Optional<ParkingSpotModel> parkingSpotModelOptional = parkingSpotService.findById(id);
 
-        if(!parkingSpotModelOptional.isPresent()){
+        if (!parkingSpotModelOptional.isPresent()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Parking Spot not found.");
         }
 
@@ -133,7 +168,8 @@ public class ParkingSpotController {
         parkingSpotModel.setCarModel(carModel);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(parkingSpotService.save(parkingSpotModel));
-        // TODO estudar meios de conversão para alterar as informações no banco somente do que veio alterado
+        // TODO estudar meios de conversão para alterar as informações no banco somente
+        // do que veio alterado
     }
 
 }

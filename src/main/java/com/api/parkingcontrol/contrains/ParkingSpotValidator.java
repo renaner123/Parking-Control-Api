@@ -24,6 +24,9 @@ public class ParkingSpotValidator implements ConstraintValidator<ParkingSpot, Pa
         this.carService = carService;
     }
 
+    /**
+     * Valida se essas informações existem no banco de dados antes de tentar inserir
+     */
     @Override
     public boolean isValid(ParkingSpotDto value, ConstraintValidatorContext context) {
         log.info("Iniciou ParkingSpotValidator");

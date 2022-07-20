@@ -13,6 +13,9 @@ import javax.persistence.Table;
 
 import lombok.Data;
 
+/**
+ * Classe que representa um carro pertencente a uma vaga de estacionamento
+ */
 @Entity
 @Data
 public class CarModel {

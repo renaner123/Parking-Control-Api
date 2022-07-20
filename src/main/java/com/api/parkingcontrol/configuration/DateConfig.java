@@ -16,6 +16,10 @@ public class DateConfig {
     public static final String DATETIME_FORMAT = "yyyy-MM-dd'T'HH:mm:ss'Z'";
     public static LocalDateTimeSerializer LOCAL_DATETIME_SERIALIZER = new LocalDateTimeSerializer(DateTimeFormatter.ofPattern(DATETIME_FORMAT));
 
+    /**
+     * 
+     * Usado para definir o padrão de data como ISO 8601
+     */
     @Bean
     @Primary
     public ObjectMapper objectMapper(){

@@ -10,8 +10,7 @@ import com.api.parkingcontrol.models.ParkingSpotModel;
 import lombok.Data;
 
 /**
- * Validas os campos e também valida se não existe nenhum campo unique já cadastrado no banco com @ParkingSpot
- * 
+ * Usado para transferir as informações recebidas no RequestBody para as entidades desejadas
  */
 @Data
 @ParkingSpot

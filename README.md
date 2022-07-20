@@ -6,12 +6,14 @@ Criando uma API Rest com Spring Boot. Código base se encontra neste [repositór
 
 Projeto consite em fazer uma API para ter controle de estacionamento de um condomínio. Foram feitas as seguintes melhorias no projeto.
 
-- [x] Usar CustomValidator 
+- [x] Usar CustomValidator - Verificar se o parâmetro passado (POST) já existe no banco
 - [ ] Receber argumentos no método findAll para listar por argumento
-- [x] Fazer relacionamento entre as classes
-- [ ] Usar meios de conversões para alterar dados com o PUT
+- [x] Fazer relacionamento entre as classes - OneToOne entre Car de ParkingSpot
+- [x] Usar meios de conversões para alterar dados com o PUT - Converter
 - [ ] Inserir testes de unidade com JUnit 5
 - [ ] Inserir Logger com slf4j
+- [ ] Usar MapSruct e BeansUtils para converter entidades (testar com ambos)
+- [ ] Consumir uma API externa - Spring WebClient 
 ## Como compilar e executar esse projeto 
 
 Para executar a aplicação é necessário fazer o clone deste repositório com o comando abaixo.

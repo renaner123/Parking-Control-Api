@@ -43,6 +43,10 @@ public class ParkingSpotService {
         return parkingSpotRepository.findAll(pageable);
     }
 
+    public List<ParkingSpotModel> findByBlock(String block){
+        return parkingSpotRepository.findByBlock(block);
+    }
+
     public Optional<ParkingSpotModel> findById(UUID id) {
         return parkingSpotRepository.findById(id);
     }
