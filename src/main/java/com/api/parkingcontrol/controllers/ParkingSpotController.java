@@ -101,8 +101,7 @@ public class ParkingSpotController {
      */
     @GetMapping("/block/{block}")
     public ResponseEntity<List<ParkingSpotModel>> getAllByModelCar(
-            @PathVariable(value = "block") @PageableDefault(page = 0, size = 10, sort = "block", direction = Sort.Direction.ASC) Pageable pageable,
-            String block) {
+            @PathVariable(value = "block")String block) {
         log.info("Listando todas as vagas de estacionamento contidas no block {}", block);
         return ResponseEntity.status(HttpStatus.OK).body(parkingSpotService.findByBlock(block));
     }
@@ -120,6 +119,7 @@ public class ParkingSpotController {
         if (!parkingSpotModelOptional.isPresent()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Parking Spot not found.");
         }
+        log.info("Vaga com id {} encontrada!", id);
         return ResponseEntity.status(HttpStatus.OK).body(parkingSpotModelOptional.get());
     }
 
@@ -141,7 +141,6 @@ public class ParkingSpotController {
             return ResponseEntity.status(HttpStatus.OK).body("Parking Spot was deleted!");
         }
     }
-
     /**
      * Altera as informações de uma vaga de estacionamento cadastrada
      */
@@ -166,7 +165,7 @@ public class ParkingSpotController {
         parkingSpotModel.setRegistrationDate(parkingSpotModelOptional.get().getRegistrationDate());
         carService.save(carModel);
         parkingSpotModel.setCarModel(carModel);
-
+        log.info("Informações alteradas com sucesso!");
         return ResponseEntity.status(HttpStatus.CREATED).body(parkingSpotService.save(parkingSpotModel));
         // TODO estudar meios de conversão para alterar as informações no banco somente
         // do que veio alterado

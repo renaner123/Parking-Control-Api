@@ -15,6 +15,7 @@ import org.springframework.stereotype.Repository;
 public interface ParkingSpotRepository extends JpaRepository<ParkingSpotModel, UUID> {
     
     boolean existsByParkingSpotNumber(String parkingSpotNumber);
+    boolean existsByBlock(String block);
     boolean existsByApartmentAndBlock(String apartment, String block);
     List<ParkingSpotModel> findByBlock(String block);
 }

@@ -4,16 +4,18 @@
 
 Criando uma API Rest com Spring Boot. Código base se encontra neste [repositório](https://www.youtube.com/watch?v=LXRU-Z36GEU&t=9s). 
 
-Projeto consite em fazer uma API para ter controle de estacionamento de um condomínio. Foram feitas as seguintes melhorias no projeto.
+Projeto consite em fazer uma API para ter controle de estacionamento de um condomínio. Foram e/ou estão sendo feitas as seguintes melhorias no projeto (para fins de estudo).
 
 - [x] Usar CustomValidator - Verificar se o parâmetro passado (POST) já existe no banco
 - [ ] Receber argumentos no método findAll para listar por argumento
 - [x] Fazer relacionamento entre as classes - OneToOne entre Car de ParkingSpot
-- [x] Usar meios de conversões para alterar dados com o PUT - Converter
+- [ ] Usar meios de conversões para alterar dados com o PUT - Converter
 - [ ] Inserir testes de unidade com JUnit 5
-- [ ] Inserir Logger com slf4j
-- [ ] Usar MapSruct e BeansUtils para converter entidades (testar com ambos)
+- [x] Inserir Logger com slf4j
+- [ ] Usar MapSruct e BeansUtils para converter entidades (testar com ambos) - BeanUtils OK
 - [ ] Consumir uma API externa - Spring WebClient 
+- [x] Usar container Docker para o banco de dados PostgreSQL
+- [ ] Gerar a documentação com OpenAPI.
 ## Como compilar e executar esse projeto 
 
 Para executar a aplicação é necessário fazer o clone deste repositório com o comando abaixo.
@@ -37,14 +39,37 @@ git clone https://github.com/renaner123/Parking-Control-Api.git
 A configuração da conexão com o banco de dados é feita através do arquivo [properties](src\main\resources\application.properties) e deve ser conforme abaixo.
 
 ```properties
-spring.datasource.url=jdbc:postgresql://localhost:5432/parking-control-db
-spring.datasource.username=username
-spring.datasource.password=password
+spring.datasource.url=jdbc:postgresql://localhost:5432/postgres
+spring.datasource.username=postgres
+spring.datasource.password=banco123
 spring.jpa.hibernate.ddl-auto=update
 
 spring.jpa.properties.hibernate.jdbc.lab.nan_contextual_creation=true
-#ddl-auto on first time to need use create instead none
+spring.jpa.show-sql = false
+spring.jpa.hibernate.naming-strategy = org.hibernate.cfg.ImprovedNamingStrategy
+spring.jpa.properties.hibernate.dialect = org.hibernate.dialect.PostgreSQL9Dialect
 ```
+
+## Container Docker PostgresSQL
+
+Caso não tenha um servidor Postgres é possível subir um container usando Docker com o seguinte comando:
+
+```shell
+  sudo docker run --name postgres -p 5432:5432 -e POSTGRES_PASSWORD=your-password -d postgres
+```
+Caso queira gerenciar o banco de dados com pgAdmin, é possível usar um container para isso, por exemplo:
+
+```shell
+  docker run --rm -p 5050:5050 thajeztah/pgadmin4
+```
+Após executar e acessar o endereço gerado pelo container pgadmin4 `(http://0.0.0.0:5050)` é necessário adicionar o servidor em `Add New Server`. 
+
+Passos:
+1. Em General é necessário configurar um Name.
+2. Em Connection:
+   1. Host name/addres -> é necessário colocar o endereço IP do host (não pode ser localhost)
+   2. password -> inserir o password usado na criação do container
+   3. Port e username devem ser alterados caso não tenha usado o padrão
 
 ## Executando a aplicação
 
@@ -65,10 +90,11 @@ A aplicação vai estar disposnível na porta 8080 e poderá ser acessado no seg
 |Método| Endpoint| Serviço|
 |-------|---------|--------|
 |GET|localhost:8080/parking-spot/| Lista todas as vagas de estacionamento
-|GET|localhost:8080/parking-spot/id|Lista as informações de uma vaga pelo id
+|GET|localhost:8080/parking-spot/{id}|Lista as informações de uma vaga pelo id
+|GET|localhost:8080/parking-spot/block/{block}|Lista as informações de uma vaga pelo id
 |POST|localhost:8080/parking-spot| Cadastra uma nova vaga. Recebe json no body
-|DELETE|localhost:8080/parking-spot/id | Deleta uma vaga pelo id
-|PUT|localhost:8080/parking-spot/id | Altera informações no cadastro. Recebe json no body
+|DELETE|localhost:8080/parking-spot/{id} | Deleta uma vaga pelo id
+|PUT|localhost:8080/parking-spot/id{} | Altera informações no cadastro. Recebe json no body
 
 Json para enviar no cadastro e para alteração de dados deve ser conforme abaixo:
 
@@ -84,10 +110,6 @@ Json para enviar no cadastro e para alteração de dados deve ser conforme abaix
     "block": "B"
 }
 ```
-
-##
-
-Essa API foi documentada de acordo com a especificação xxxxx e a mesma pode ser visualizada com o yyyyy. 
 
 ## Biblioteca externas
 
