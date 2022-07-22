@@ -15,7 +15,10 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * Representa uma vaga de estacionamento
@@ -23,6 +26,9 @@ import lombok.Data;
 @Entity
 @Table(name = "tb_parking_spot")
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 public class ParkingSpotModel implements Serializable {
 
     private static final long serialVersionUID = 1L;

@@ -11,13 +11,17 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * Classe que representa um carro pertencente a uma vaga de estacionamento
  */
 @Entity
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class CarModel {
    
     @Id

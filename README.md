@@ -10,7 +10,7 @@ Projeto consite em fazer uma API para ter controle de estacionamento de um condo
 - [ ] Receber argumentos no método findAll para listar por argumento
 - [x] Fazer relacionamento entre as classes - OneToOne entre Car de ParkingSpot
 - [ ] Usar meios de conversões para alterar dados com o PUT - Converter
-- [ ] Inserir testes de unidade com JUnit 5
+- [x] Inserir testes de unidade com JUnit 5 - ParkingSpotControllerTest
 - [x] Inserir Logger com slf4j
 - [ ] Usar MapSruct e BeansUtils para converter entidades (testar com ambos) - BeanUtils OK
 - [ ] Consumir uma API externa - Spring WebClient 
@@ -75,7 +75,7 @@ Passos:
 
 Para compilar o projeto e gerar o artefato `jar` é necessário executar o comando abaixo
 ```shell
-mvn package -DskipTests
+mvn clean install
 ```
 
 Com o projeto compilado para executar a aplicação deve-se usar o comando a seguir.
@@ -91,7 +91,7 @@ A aplicação vai estar disposnível na porta 8080 e poderá ser acessado no seg
 |-------|---------|--------|
 |GET|localhost:8080/parking-spot/| Lista todas as vagas de estacionamento
 |GET|localhost:8080/parking-spot/{id}|Lista as informações de uma vaga pelo id
-|GET|localhost:8080/parking-spot/block/{block}|Lista as informações de uma vaga pelo id
+|GET|localhost:8080/parking-spot/block/{block}|Lista todas as vagas de acordo com o bloco
 |POST|localhost:8080/parking-spot| Cadastra uma nova vaga. Recebe json no body
 |DELETE|localhost:8080/parking-spot/{id} | Deleta uma vaga pelo id
 |PUT|localhost:8080/parking-spot/id{} | Altera informações no cadastro. Recebe json no body

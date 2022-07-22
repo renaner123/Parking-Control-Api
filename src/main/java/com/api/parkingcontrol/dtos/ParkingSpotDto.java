@@ -7,6 +7,7 @@ import javax.validation.constraints.Size;
 import com.api.parkingcontrol.contrains.ParkingSpot;
 import com.api.parkingcontrol.models.ParkingSpotModel;
 
+import lombok.Builder;
 import lombok.Data;
 
 /**
