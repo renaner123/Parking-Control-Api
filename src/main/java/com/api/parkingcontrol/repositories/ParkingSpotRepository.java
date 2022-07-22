@@ -5,10 +5,8 @@ import java.util.UUID;
 
 import com.api.parkingcontrol.models.ParkingSpotModel;
 
-import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties.Pageable;
-import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.repository.CrudRepository;
+
 import org.springframework.stereotype.Repository;
 
 @Repository //Não precisaria, pois já está contido no extends

@@ -1,13 +1,11 @@
 package com.api.parkingcontrol.dtos;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import com.api.parkingcontrol.contrains.ParkingSpot;
 import com.api.parkingcontrol.models.ParkingSpotModel;
 
-import lombok.Builder;
 import lombok.Data;
 
 /**

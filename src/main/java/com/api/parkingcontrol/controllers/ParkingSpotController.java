@@ -8,16 +8,12 @@ import java.util.UUID;
 
 import javax.validation.Valid;
 
-import com.api.parkingcontrol.contrains.ParkingSpot;
-import com.api.parkingcontrol.contrains.ParkingSpotValidator;
 import com.api.parkingcontrol.dtos.ParkingSpotDto;
 import com.api.parkingcontrol.models.CarModel;
 import com.api.parkingcontrol.models.ParkingSpotModel;
 import com.api.parkingcontrol.services.CarService;
 import com.api.parkingcontrol.services.ParkingSpotService;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
