@@ -15,7 +15,7 @@ Projeto consite em fazer uma API para ter controle de estacionamento de um condo
 - [ ] Usar MapSruct e BeansUtils para converter entidades (testar com ambos) - BeanUtils OK
 - [ ] Consumir uma API externa - Spring WebClient 
 - [x] Usar container Docker para o banco de dados PostgreSQL
-- [ ] Gerar a documentação com OpenAPI.
+- [x] Gerar a documentação com OpenAPI.
 ## Como compilar e executar esse projeto 
 
 Para executar a aplicação é necessário fazer o clone deste repositório com o comando abaixo.
@@ -83,7 +83,7 @@ Com o projeto compilado para executar a aplicação deve-se usar o comando a seg
 ```
 java -jar target/parking-control-0.0.1-SNAPSHOT.jar
 ```
-A aplicação vai estar disposnível na porta 8080 e poderá ser acessado no seguinte endereço: http://localhost:8080
+A aplicação vai estar disposnível na porta 8080 e poderá ser acessado no seguinte endereço: `http://localhost:8080`
 
 ## Serviços
 
@@ -96,20 +96,8 @@ A aplicação vai estar disposnível na porta 8080 e poderá ser acessado no seg
 |DELETE|localhost:8080/parking-spot/{id} | Deleta uma vaga pelo id
 |PUT|localhost:8080/parking-spot/id{} | Altera informações no cadastro. Recebe json no body
 
-Json para enviar no cadastro e para alteração de dados deve ser conforme abaixo:
+Com a aplicação em executação, também é possível acessar sua documentação OpenAPI no endereço `http://localhost:8080/swagger-ui.html#/` ou acessando o arquivo xx
 
-```json
-{
-    "parkingSpotNumber" : "208H",
-    "licensePlateCar" : "RRS7565",
-    "brandCar": "audi",
-    "modelCar": "q5",
-    "colorCar": "black",
-    "responsibleName" : "Renan Rodolfo",
-    "apartment" : "208",
-    "block": "B"
-}
-```
 
 ## Biblioteca externas
 
