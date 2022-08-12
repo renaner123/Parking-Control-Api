@@ -33,13 +33,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.OpenAPIDefinition;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.info.Info;
 import lombok.extern.slf4j.Slf4j;
 
 //TODO jogar as inforações do log para um arquivo
 @Slf4j
-@Api(value="API REST Control Parking Spot")
 @Validated
 @RestController
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -63,7 +63,7 @@ public class ParkingSpotController {
      * @param parkingSpotDto Json contendo as informações a serem armazenadas
      * @return Status created(201) com os dados que foram cadastrados
      */
-    @ApiOperation(value="Adiciona uma vaga de estacionamento")
+    @Operation(summary = "Adiciona uma vaga de estacionamento")
     @PostMapping
     public ResponseEntity<Object> saveParkingSpot(@RequestBody @Valid ParkingSpotDto parkingSpotDto) {
         var parkingSpotModel = new ParkingSpotModel();
@@ -85,7 +85,7 @@ public class ParkingSpotController {
     /**
      * Retorna todos as vagas de estacionamento cadastradas no banco de dados
      */
-    @ApiOperation(value="Lista todas as vagas de estacionamento")
+    @Operation(summary="Lista todas as vagas de estacionamento")
     @GetMapping
     public ResponseEntity<Page<ParkingSpotModel>> getAllParkingSpot(
             @PageableDefault(page = 0, size = 10, sort = "id", direction = Sort.Direction.ASC) Pageable pageable) {
@@ -100,7 +100,7 @@ public class ParkingSpotController {
      * @param block     bloco que que será usada para listar as vagas de estacinamento
      * @return          200 OK caso não ocorra nenhum erro
      */
-    @ApiOperation(value="Lista todas as vagas de estacionamento pelo bloco")
+    @Operation(summary="Lista todas as vagas de estacionamento pelo bloco")
     @GetMapping("/block/{block}")
     public ResponseEntity<List<ParkingSpotModel>> getAllByBlock(
             @PathVariable(value = "block")String block) {
@@ -114,7 +114,7 @@ public class ParkingSpotController {
      * @param id    id que se deseja consultar as informações
      * @return      informações contidas no Objeto ParkingSpotModel
      */
-    @ApiOperation(value="Lista a vaga pelo 'id'")
+    @Operation(summary="Lista a vaga pelo 'id'")
     @GetMapping("/{id}")
     public ResponseEntity<Object> getByIdParkingSpot(@PathVariable(value = "id") UUID id) {
 
@@ -132,7 +132,7 @@ public class ParkingSpotController {
      * @param id id que se deseja consultar as informações
      * @return  200 OK caso não ocorra nenhum erro
      */
-    @ApiOperation(value="Deleta uma vaga de estacionamento pelo 'id' ")
+    @Operation(summary="Deleta uma vaga de estacionamento pelo 'id' ")
     @DeleteMapping("/{id}")
     public ResponseEntity<Object> deleteByIdParkingSpot(@PathVariable(value = "id") UUID id) {
         Optional<ParkingSpotModel> parkingSpotModelOptional = parkingSpotService.findById(id);
@@ -148,7 +148,7 @@ public class ParkingSpotController {
     /**
      * Altera as informações de uma vaga de estacionamento cadastrada
      */
-    @ApiOperation(value="Altera as informações de uma vaga de estacionamento")
+    @Operation(summary="Altera as informações de uma vaga de estacionamento")
     @PutMapping("/{id}")
     public ResponseEntity<Object> updateParkingSpot(@PathVariable(value = "id") UUID id,
             @RequestBody @Valid ParkingSpotDto parkingSpotDto) {

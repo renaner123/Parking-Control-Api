@@ -96,7 +96,7 @@ A aplicação vai estar disposnível na porta 8080 e poderá ser acessado no seg
 |DELETE|localhost:8080/parking-spot/{id} | Deleta uma vaga pelo id
 |PUT|localhost:8080/parking-spot/id{} | Altera informações no cadastro. Recebe json no body
 
-Com a aplicação em executação, também é possível acessar sua documentação OpenAPI no endereço `http://localhost:8080/swagger-ui.html#/` ou acessando o arquivo xx
+Com a aplicação em executação, também é possível acessar sua documentação OpenAPI no endereço `localhost:8080/swagger-ui.html`.
 
 
 ## Biblioteca externas
