@@ -1,8 +1,9 @@
 [![Java CI with Maven](https://github.com/renaner123/Parking-Control-Api/actions/workflows/maven.yml/badge.svg)](https://github.com/renaner123/Parking-Control-Api/actions/workflows/maven.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 ## Controle de veículos em condomínio
 
-Criando uma API Rest com Spring Boot. Código base se encontra neste [repositório](https://www.youtube.com/watch?v=LXRU-Z36GEU&t=9s). 
+Criando uma API Rest com Spring Boot. Código base se encontra neste [repositório](https://github.com/MichelliBrito/parking-control-api). 
 
 Projeto consite em fazer uma API para ter controle de estacionamento de um condomínio. Foram e/ou estão sendo feitas as seguintes melhorias no projeto (para fins de estudo).
 
@@ -96,7 +97,7 @@ A aplicação vai estar disposnível na porta 8080 e poderá ser acessado no seg
 |DELETE|localhost:8080/parking-spot/{id} | Deleta uma vaga pelo id
 |PUT|localhost:8080/parking-spot/id{} | Altera informações no cadastro. Recebe json no body
 
-Com a aplicação em executação, também é possível acessar sua documentação OpenAPI no endereço `localhost:8080/swagger-ui.html`.
+Com a aplicação em executação, também é possível acessar sua documentação OpenAPI no endereço `localhost:8080/swagger-ui.html` ou no arquvo [parkingControl.yml](src/main/resources/parkingControl.yml).
 
 
 ## Biblioteca externas

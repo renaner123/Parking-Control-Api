@@ -11,6 +11,8 @@ info:
     name: Apache 2.0
     url: https://www.apache.org/licenses/LICENSE-2.0.html
   version: 1.0.0
+servers:
+  - url: http://localhost:8080
 
 components:
   schemas:
@@ -79,15 +81,47 @@ paths:
         '200':
           description: OK
           content:
+            application/json: 
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ParkingSpotModel'
+                  properties:
+                    CarModel:
+                      $ref: '#/components/schemas/CarModel'                    
+  
+
+        '500':
+          description: Internal error
+          content:
+            string : 
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+
+    post:
+      description: Add one Parking Spot
+      summary: Add one Parking Spot
+      operationId: save
+
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ParkingSpotModel'
+
+      responses:
+        '201':
+          description: Created
+          content:
             'application/json' : 
               schema:
                 properties:
-                  items:
+                  content:
                     $ref: '#/components/schemas/ParkingSpotModel'
-                  carModel:
-                    type: object
-                    additionalProperties: 
-                    $ref: '#/components/schemas/CarModel'  
+                    properties:
+                      CarModel:
+                        $ref: '#/components/schemas/CarModel'                    
   
         '500':
           description: Internal error
@@ -95,3 +129,177 @@ paths:
             string : 
               schema:
                 $ref: '#/components/schemas/GeneralError'
+
+        '400':
+          description: Bad Request
+          content:
+            string : 
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+
+  /parking-spot/{id}:
+    get:
+      description: Return a Parking Spot by id
+      summary: Return a Parking Spot by id
+      operationId: findById
+
+      parameters:
+        - in: path
+          name: id   
+          required: true
+          schema:
+            type: string
+            format: uuid
+          description: The user ID
+
+      responses:
+        '200':
+          description: OK
+          content:
+            'application/json' : 
+              schema:
+                properties:
+                  content:
+                    $ref: '#/components/schemas/ParkingSpotModel'
+                    properties:
+                      CarModel:
+                        $ref: '#/components/schemas/CarModel'                    
+
+        '404':
+          description: Not Found
+          content:
+            string : 
+              schema:
+                $ref: '#/components/schemas/GeneralError'     
+
+        '500':
+          description: Internal error
+          content:
+            string : 
+              schema:
+                $ref: '#/components/schemas/GeneralError'          
+
+    delete:
+      description: Delete a Parking Spot by id
+      summary: Delete a Parking Spot by id
+      operationId: delete
+
+      parameters:
+        - in: path
+          name: id   
+          required: true
+          schema:
+            type: string
+            format: uuid
+          description: The user ID      
+
+      responses:
+        '200':
+          description: OK
+          content:
+            string : 
+              schema:
+                $ref: '#/components/schemas/GeneralError'    
+                 
+        '404':
+          description: Not Found
+          content:
+            string : 
+              schema:
+                $ref: '#/components/schemas/GeneralError'     
+
+        '500':
+          description: Internal error
+          content:
+            string : 
+              schema:
+                $ref: '#/components/schemas/GeneralError'    
+
+    put:
+      description: Alter one Parking Spot by id
+      summary: Alter one Parking Spot by id
+      operationId: save
+
+      parameters:
+        - in: path
+          name: id   
+          required: true
+          schema:
+            type: string
+            format: uuid
+          description: The user ID    
+
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ParkingSpotModel'
+
+      responses:
+        '201':
+          description: Created
+          content:
+            'application/json' : 
+              schema:
+                properties:
+                  content:
+                    $ref: '#/components/schemas/ParkingSpotModel'
+                    properties:
+                      CarModel:
+                        $ref: '#/components/schemas/CarModel'                    
+  
+        '500':
+          description: Internal error
+          content:
+            string : 
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+
+        '400':
+          description: Bad Request
+          content:
+            string : 
+              schema:
+                $ref: '#/components/schemas/GeneralError'
+
+  /parking-spot/block/{block}:
+    get:
+      description: Return all Parking Spot by block
+      summary: Return all Parking Spot by block
+      operationId: findById
+
+      parameters:
+        - in: path
+          name: block   
+          required: true
+          schema:
+            type: string
+          description: The block 
+
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json: 
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ParkingSpotModel'
+                  properties:
+                    CarModel:
+                      $ref: '#/components/schemas/CarModel'                    
+
+        '404':
+          description: Not Found
+          content:
+            string : 
+              schema:
+                $ref: '#/components/schemas/GeneralError'     
+
+        '500':
+          description: Internal error
+          content:
+            string : 
+              schema:
+                $ref: '#/components/schemas/GeneralError'      
